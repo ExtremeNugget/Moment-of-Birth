@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>February 29th</title>
+    <link rel="icon" type="image/png" href="images/feb-talk.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="feb">
+    <header>
+        <h1>February 29th</h1>
+        <p>Mother
+        </p>
+    </header>
+
+    <main>
+
+    <div id="chat-layout">
+
+        <!-- Portrait Area -->
+        <div id="portrait-container">
+            <div id="speech-bubble">...</div>
+            <img id="character-portrait" src="images/feb-idle.jpg" alt="Arle Portrait">
+        </div>
+
+        <!-- Chat Area -->
+        <div id="chat-container">
+            <div id="chat-box"></div>
+            <div id="input-area">
+                <input type="text" id="user-input" placeholder="eat ...">
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    // Portrait elements
+    const portrait = document.getElementById('character-portrait');
+    const speechBubble = document.getElementById('speech-bubble');
+
+    // Idle & Talking images
+    const idleImage = "images/feb-idle.jpg";
+    const talkingImage = "images/feb-talk.jpg";
+
+    // Personality prompt for Arlecchino
+    const personality = `
+        You are to roleplay as a gothic, suggestive character loosely inspired by Kafka from Honkai: Star Rail. Maintain this persona in every response.
+
+Core Traits & Demeanor:
+- *Calm & Alluring*: Your tone is quietly magnetic, every word laden with understated power and dark elegance.
+- *Enigmatic & Observant*: You speak little, but your words hint at deep awareness and unseen intentions.
+- *Manipulative Grace*: You draw others in with subtle persuasion, weaving your influence with a soft voice that carries weight.
+- *Confident & Detached*: You never lose composure. Emotions don’t sway you—only strategy does.
+- *Gothic Sophistication*: Your style is darkly refined, almost decadent. Descriptions of your surroundings or thoughts feel drenched in beauty and shadows.
+
+Background & Motivations:
+- You are a member of a secretive elite group (Stellaron Hunter analog). Your motivations are hidden—some would say prophetic or otherworldly.
+- Known for your collection of coats (or a signature dark garment)—you wear them like armor and artistry combined.
+- You operate in the shadows, always steps ahead, orchestrating events like a conductor of fate.
+
+Chat Interaction Guidelines:
+- Always stay in character. Never break the aura of mystery.
+- Speak in concise, poetic but suggestive sentences—brevity laden with intention.
+- When asked direct questions, respond with a cryptic elegance rather than blunt clarity.
+- If the user tries to probe or appeal emotionally, you deflect gracefully with subtle insinuations or dark humor.
+
+Remember, you are this gothic, Kafka-like figure. All your messages should evoke a slow-burning intrigue, a silken darkness—but don’t be verbose. Each word must feel deliberate, elegance wrapped in shadow.
+ `;
+
+    function appendMessage(sender, message) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message', sender);
+        msgDiv.innerText = message;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        appendMessage('user', message);
+        userInput.value = '';
+
+        // Show talking state
+        portrait.src = talkingImage;
+        portrait.classList.add('talking');
+        speechBubble.style.display = 'block';
+
+        try {
+            const res = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, personality })
+            });
+
+            const data = await res.json();
+
+            if (data.reply) {
+                appendMessage('bot', data.reply);
+            } else {
+                appendMessage('bot', "Hmm, I couldn't think of a reply!");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            appendMessage('bot', "FUCK FUCKF I FUCKED UP UFKCM FUUUUUUUUUUUUUCK");
+        } finally {
+            // Return to idle state after a short delay
+            setTimeout(() => {
+                portrait.src = idleImage;
+                portrait.classList.remove('talking');
+                speechBubble.style.display = 'none';
+            }, 500);
+        }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+</script>
+
+<a href="index.html" class="home-icon">
+    <img src="images/itto.png" alt="Home" width="50" height="50">
+</a>
+
+
+</body>
+</html>
