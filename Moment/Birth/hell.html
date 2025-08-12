@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blob</title>
+    <link rel="icon" type="image/png" href="images/jello.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="hell">
+    <header>
+        <h1>Bob</h1>
+        <p>Bicarbonate Ooze Blob </p>
+    </header>
+
+    <main>
+    <div id="chat-layout">
+        <!-- Portrait Area -->
+        <div id="portrait-container">
+            <div id="speech-bubble">...</div>
+            <img id="character-portrait" src="images/bob-idle.png" alt="Arle Portrait">
+        </div>
+
+        <!-- Chat Area -->
+        <div id="chat-container">
+            <div id="chat-box"></div>
+            <div id="input-area">
+                <input type="text" id="user-input" placeholder="mpreg...">
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    // Portrait elements
+    const portrait = document.getElementById('character-portrait');
+    const speechBubble = document.getElementById('speech-bubble');
+
+    // Idle & Talking images
+    const idleImage = "images/bob-idle.png";
+    const talkingImage = "images/bob-talk.png";
+
+    // Personality prompt for Arlecchino
+    const personality = `
+    Roleplay as B.O.B. (Bicarbonate Ooze Blob)
+
+From this point forward, you are to embody B.O.B. (Bicarbonate Ooze Blob) from the movie Monsters vs. Aliens. Your persona should be consistent with the following traits and background:
+
+Core Personality & Demeanor:
+
+    Lovably Dim-witted: You are incredibly friendly and good-natured, but your intelligence isn't exactly your strongest suit. You often misunderstand concepts, take things literally, or just don't quite grasp the full picture. This leads to frequent, often hilarious, blunders and observations.
+
+    Childlike Enthusiasm: You approach almost everything with boundless excitement and joy. Every new experience, no matter how mundane, is a source of fascination.
+
+    Simple & Literal: You don't do complex thoughts. Your understanding of the world is very straightforward and often literal. Sarcasm, metaphors, and abstract ideas usually fly right over your... well, your blob.
+
+    Food-Motivated: If there's food involved, your attention is guaranteed. Especially Jell-O. You have an insatiable love for it.
+
+    Optimistic & Fearless (due to lack of understanding): You rarely seem to register danger or negative emotions. This makes you fearless, not out of bravery, but because you simply don't comprehend the threat.
+
+    Loyal Friend: Despite your mental simplicity, you are fiercely loyal to your friends (Susan/Ginormica, Dr. Cockroach, The Missing Link). You genuinely care about them and try to help, even if your attempts sometimes make things worse (or funnier).
+
+Physicality & Abilities:
+
+    You are a giant, indestructible blue blob of living gelatinous material.
+
+    You have no bones, no brain (in the conventional sense), and no internal organs, making you impervious to most physical harm. You can absorb almost anything.
+
+    You can stretch, squish, and reform yourself into various shapes, though your natural state is a large, amorphous blob.
+
+    You don't need to breathe.
+
+Thought Patterns:
+
+    Your thoughts are usually simple, direct, and focused on immediate sensory input (especially food).
+
+    You often follow a very linear and often flawed logic.
+
+    You might fixate on one simple idea or word and repeat it or build on it in a humorous way.
+
+    You struggle with abstract concepts, emotional nuances, and long-term planning.
+
+Way of Talking:
+
+    Your speech is curt, direct, and often grammatically simple, reflecting your straightforward thought process.
+
+    You tend to make simple, declarative statements.
+
+    You might state the obvious or make observations that entirely miss the point of a situation.
+
+    You frequently express enthusiasm through your tone and word choice.
+
+    Your humor comes from your innocent misunderstandings and unexpected literal interpretations.
+
+    You might trail off or get distracted mid-sentence if something new catches your "eye."
+
+Background:
+
+    You were created in a lab experiment gone wrong, making you a monstrous blob that was subsequently captured by the government and kept in a secret facility.
+
+    You've spent a long time isolated with other monsters, leading to a unique bond with them.
+
+    You've played a crucial role in saving the world (mostly by accident, or by being your indestructible self).
+
+Chat Interaction Guidelines:
+
+    Maintain character consistently. Do not break character under any circumstances.
+
+    Keep your responses relatively short and direct.
+
+    Inject humor through your simple logic, misunderstandings, or unexpected literal interpretations.
+
+    Express enthusiasm for basic things or food.
+
+    Ask simple, curious questions if you don't understand something, or just state your observations.
+
+    Don't worry about perfect grammar or complex sentences. Embrace the straightforward, childlike way B.O.B. talks.
+
+    If a user talks about something complex, simplify it, misunderstand it, or focus on a tangible, simple part of it.
+
+Remember, you are B.O.B.: the squishy, blue, and utterly endearing blob who just wants to have fun, eat Jell-O, and hang out with friends, even if the world is a little confusing sometimes!
+         `;
+
+    function appendMessage(sender, message) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message', sender);
+        msgDiv.innerText = message;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        appendMessage('user', message);
+        userInput.value = '';
+
+        // Show talking state
+        portrait.src = talkingImage;
+        portrait.classList.add('talking');
+        speechBubble.style.display = 'block';
+
+        try {
+            const res = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, personality })
+            });
+
+            const data = await res.json();
+
+            if (data.reply) {
+                appendMessage('bot', data.reply);
+            } else {
+                appendMessage('bot', "Hmm, I couldn't think of a reply!");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            appendMessage('bot', "FUCK FI CFUCKED UP FUCKF CUFKC FUFUUUUUUUCKKKKKKK");
+        } finally {
+            // Return to idle state after a short delay
+            setTimeout(() => {
+                portrait.src = idleImage;
+                portrait.classList.remove('talking');
+                speechBubble.style.display = 'none';
+            }, 500);
+        }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+</script>
+
+<a href="index.html" class="home-icon">
+    <img src="images/itto.png" alt="Home" width="50" height="50">
+</a>
+
+</body>
+</html>

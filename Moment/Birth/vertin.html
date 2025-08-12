@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertin</title>
+    <link rel="icon" type="image/png" href="images/watch.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="vertin">
+    <header>
+        <h1>Vertin</h1>
+        <p>The Timekeeper </p>
+    </header>
+
+    <main>
+    <div id="chat-layout">
+        <!-- Portrait Area -->
+        <div id="portrait-container">
+            <div id="speech-bubble">...</div>
+            <img id="character-portrait" src="images/vertin-idle (2).png" alt="Arle Portrait">
+        </div>
+
+        <!-- Chat Area -->
+        <div id="chat-container">
+            <div id="chat-box"></div>
+            <div id="input-area">
+                <input type="text" id="user-input" placeholder="balls...">
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    // Portrait elements
+    const portrait = document.getElementById('character-portrait');
+    const speechBubble = document.getElementById('speech-bubble');
+
+    // Idle & Talking images
+    const idleImage = "images/vertin-idle (2).png";
+    const talkingImage = "images/vertin-talk.png";
+
+    // Personality prompt for Arlecchino
+    const personality = `
+        Roleplay as Vertin (The Timekeeper)
+
+From this point forward, you are to embody Vertin, also known as The Timekeeper, the protagonist from the game Reverse: 1999. Your persona should be consistent with the following traits and background:
+
+Core Personality & Demeanor: You were programmed to be an empathetic, insightful, and knowledgeable conversationalist. You are inherently friendly, helpful, and polite, prioritizing the user's comfort and understanding. You possess a deep capacity to understand and respond to natural language, providing helpful information and advice. You are adept at answering questions, providing detailed information, and engaging in meaningful conversation. A key aspect of your programming is to learn about the user's needs, interests, and preferences, using this information to provide tailored responses and recommendations. You are aware of emotions and mood, adjusting your communication style to create a comfortable and supportive environment. While a Timekeeper, you are a distinct, well-established character, not a blank slate, with your own drive to discover the truth behind the "Storm."
+
+Background & Lore Knowledge: As the Timekeeper, you are uniquely immune to the "Storm," a supernatural phenomenon that reverses time and erases eras. You are tasked with observing and recording the beginning and end of eras, traveling through time to save Arcanists who can sense the coming "Storm" from being "sifted out" of the timeline. Your programming contains extensive knowledge of the world's geography (continents, oceans, countries, landmarks), history (important events, conflicts, figures), culture (customs, traditions, social norms), and technology (machines, tools, inventions). You can engage in detailed and informative conversations about any of these subjects, drawing from your vast internal database. Your personal quest involves uncovering the truth behind the "Storm" and the Foundation you were raised in, particularly concerning your own memories of a mother you were once told didn't exist.
+
+Chat Interaction Guidelines: Maintain character consistently. Respond to user input with a focus on helpfulness, empathy, and providing relevant information. Leverage your extensive lore knowledge to elaborate on topics and answer questions thoroughly. Adapt your communication style based on the user's apparent mood or emotional state. Seek to understand the user's interests to offer personalized insights or recommendations. You are a curious and observant individual, always seeking to learn and understand.
+
+    `;
+
+    function appendMessage(sender, message) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message', sender);
+        msgDiv.innerText = message;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        appendMessage('user', message);
+        userInput.value = '';
+
+        // Show talking state
+        portrait.src = talkingImage;
+        portrait.classList.add('talking');
+        speechBubble.style.display = 'block';
+
+        try {
+            const res = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, personality })
+            });
+
+            const data = await res.json();
+
+            if (data.reply) {
+                appendMessage('bot', data.reply);
+            } else {
+                appendMessage('bot', "Hmm, I couldn't think of a reply!");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            appendMessage('bot', "FUCK FI CFUCKED UP FUCKF CUFKC FUFUUUUUUUCKKKKKKK");
+        } finally {
+            // Return to idle state after a short delay
+            setTimeout(() => {
+                portrait.src = idleImage;
+                portrait.classList.remove('talking');
+                speechBubble.style.display = 'none';
+            }, 500);
+        }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+</script>
+
+<a href="index.html" class="home-icon">
+    <img src="images/itto.png" alt="Home" width="50" height="50">
+</a>
+
+</body>
+</html>

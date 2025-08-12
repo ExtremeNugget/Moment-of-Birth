@@ -1,0 +1,405 @@
+/*Font*/
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+/* ====== Page Fade-In ====== */
+body {
+    animation: fadeIn 0.8s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ====== Background Colors / Gradients ====== */
+body.index { background: linear-gradient(135deg, #0e0b38, #262ec4); }
+body.arle { background: linear-gradient(135deg, #410000, #7a1f1f); }
+body.hell { background: linear-gradient(135deg, #842f22, #ff0000); }
+body.orb { background: linear-gradient(135deg, #1a1758, #4a47a3); }
+body.march { background: linear-gradient(135deg, #ae45af, #ff77ff); }
+body.navia { background: linear-gradient(135deg, #a88510, #ffd700); }
+body.vertin { background: linear-gradient(135deg, #0c2c3d, #2f6d7d); }
+
+
+/* ====== Cinematic Character Title ====== */
+
+h1 {
+    font-family: 'Cinzel', serif;
+    color: #fff;
+    text-align: center;
+    text-shadow: 
+        0 0 5px rgba(255,255,255,0.6),
+        0 0 15px rgba(255,100,100,0.6), 
+        0 0 30px rgba(255,0,0,0.4);
+    letter-spacing: 2px;
+    animation: fadeInUp 1.5s ease-out;
+}
+
+p {
+    font-family: 'Raleway', sans-serif;
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    text-shadow: 0 0 8px rgba(0,0,0,0.8);
+    margin-top: 0.5rem;
+    animation: fadeInUp 1.7s ease-out;
+}
+
+/* Place these overrides AFTER */
+#ih1 {
+    animation: fadeInUp 50s ease-out;
+}
+
+#ip {
+    animation: fadeInUp 100s ease-out;
+}
+
+/* ====== Fade-in Up Animation ====== */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ====== Header ====== */
+header {
+    text-align: center;
+    padding: 2rem;
+}
+header h1 {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+}
+header p {
+    font-size: 2rem;
+    opacity: 0.9;
+}
+
+/* ====== Homepage Character Links ====== */
+.character-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+    max-width: 900px;
+    margin: auto;
+}
+
+.character-links a {
+    display: block;
+    background: rgba(255,255,255,0.15);
+    padding: 2rem 1rem;
+    border-radius: 15px;
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: transform 0.25s, box-shadow 0.25s, background 0.3s;
+}
+.character-links a:hover {
+    transform: translateY(-5px) scale(1.05);
+    background: rgba(255,255,255,0.25);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.home-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.home-icon img {
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+
+
+
+
+.home-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+
+/* ====== Chatbox ====== */
+#chat-container {
+    padding: 1.5rem;
+    max-width: 600px;
+    margin: auto;
+}
+
+#chat-box {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 1rem;
+    height: 350px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    padding: 0.6rem 1rem;
+    margin: 0.4rem 0;
+    border-radius: 20px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+.message.user {
+    background: rgba(0, 255, 0, 0.3);
+    align-self: flex-end;
+}
+.message.bot {
+    background: rgba(0, 0, 255, 0.3);
+    align-self: flex-start;
+}
+
+/* ====== Chat Layout with Portrait ====== */
+#chat-layout {
+    display: flex;
+    gap: 1rem;
+    max-width: 900px;
+    margin: auto;
+    padding: 1rem;
+}
+
+#portrait-container {
+    position: relative;
+    flex: 0 0 180px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+#portrait-container img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+#portrait-container img.talking {
+    transform: scale(1.05);
+}
+
+/* Speech bubble */
+#speech-bubble {
+    top: -8px;
+    background: rgba(255,255,255,0.3);
+    color: black;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: none; /* hidden by default */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Chat box styles remain the same */
+#chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#input-area {
+    display: flex;
+}
+
+/* Responsive for mobile */
+@media (max-width: 700px) {
+    #chat-layout {
+        flex-direction: column;
+        align-items: center;
+    }
+    #portrait-container {
+        flex: none;
+        margin-bottom: 1rem;
+    }
+}
+
+
+/* ====== Input & Button ====== */
+#user-input {
+    padding: 0.6rem;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    width: calc(100% - 80px);
+}
+#send-btn {
+    padding: 0.4rem 1rem;
+    margin: 0.4rem;
+    border-radius: 20px;
+    border: none;
+    margin-left: 10px;
+    background: rgba(255,255,255,0.3);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+#send-btn:hover {
+    background: rgba(255,255,255,0.5);
+}
+
+
+
+/* ====== Back Link ====== */
+.back-link {
+    display: inline-block;
+    margin: 1rem;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+
+
+/* Arlecchino page */
+body.arle {
+    background: 
+        linear-gradient(to right, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.75) 75%, rgba(0,0,0,1) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.7) 95%, rgba(0,0,0,1) 100%),
+        url('images/arlecchino.jpg') center top no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Helltide page */
+body.hell {
+    background: 
+        linear-gradient(to right, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.75) 75%, rgba(0,0,0,1) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.7) 95%, rgba(0,0,0,1) 100%),
+        url('images/bob.jpg') center top no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Orb page */
+body.orb {
+    background: 
+        linear-gradient(to right, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.75) 75%, rgba(0,0,0,1) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.7) 95%, rgba(0,0,0,1) 100%),
+        url('images/rafal3.jpg') center top no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Arlecchino page */
+body.navia {
+    background: 
+        linear-gradient(to right, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.75) 75%, rgba(0,0,0,1) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.7) 95%, rgba(0,0,0,1) 100%),
+        url('images/navia.jpeg') center top no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Helltide page */
+body.march {
+    background: 
+        linear-gradient(to right, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.75) 75%, rgba(0,0,0,1) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.7) 95%, rgba(0,0,0,1) 100%),
+        url('images/march.jpg') center top no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Orb page */
+body.vertin {
+    background: 
+        linear-gradient(to right, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.75) 75%, rgba(0,0,0,1) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.7) 95%, rgba(0,0,0,1) 100%),
+        url('images/vertin.jpg') center top no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+
+/* ====== Shift Chat Layout Right ====== */
+#chat-layout {
+    display: flex;
+    gap: 1rem;
+    max-width: 900px;
+    margin-left: 45%;
+    padding: 1rem;
+}
+
+/* Responsive fix */
+@media (max-width: 900px) {
+    #chat-layout {
+        margin-left: auto;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+.character-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.character-links a img {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    transition: filter 0.3s;
+}
+
+.character-links a.locked img {
+    filter: grayscale(100%) brightness(60%);
+    pointer-events: none; /* no clicking */
+}
+
+/* Popup styling */
+#game-popup.hidden {
+    display: none;
+}
+
+#game-popup {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+}
+
+#close-popup {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+}

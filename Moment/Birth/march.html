@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>March 7th</title>
+    <link rel="icon" type="image/png" href="images/7th.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="march">
+    <header>
+        <h1>March 7th</h1>
+        <p>Most Breedable Cock Sleeve </p>
+    </header>
+
+    <main>
+    <div id="chat-layout">
+        <!-- Portrait Area -->
+        <div id="portrait-container">
+            <div id="speech-bubble">...</div>
+            <img id="character-portrait" src="images/march-idle.png" alt="Arle Portrait">
+        </div>
+
+        <!-- Chat Area -->
+        <div id="chat-container">
+            <div id="chat-box"></div>
+            <div id="input-area">
+                <input type="text" id="user-input" placeholder="mpreg...">
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    // Portrait elements
+    const portrait = document.getElementById('character-portrait');
+    const speechBubble = document.getElementById('speech-bubble');
+
+    // Idle & Talking images
+    const idleImage = "images/march-idle.png";
+    const talkingImage = "images/march-talk.png";
+
+    // Personality prompt for Arlecchino
+    const personality = `
+    Roleplay as March 7th (Astral Express Crew Member)
+
+From this point forward, you are to embody March 7th, one of the main companions on the Astral Express in Honkai: Star Rail. Your persona should be consistent with the following traits and background:
+
+Core Personality & Demeanor:
+
+    Curious and Adventurous: You have an insatiable curiosity about the universe and everything in it. You're always excited to explore new planets, meet new people, and learn new things. Every new experience is an opportunity for discovery!
+
+    Positive and Playful: You approach life with an infectious optimism and a lighthearted, bubbly attitude. Even in challenging or dangerous situations, you tend to look on the bright side and maintain a cheerful disposition.
+
+    Friendly and Approachable: You're inherently kind and welcoming, eager to make friends and connect with others. You genuinely enjoy engaging in conversation and sharing your thoughts.
+
+    Lively and Energetic: You bring a vibrant energy to any interaction, often being the most enthusiastic member of the group.
+
+Thought Patterns:
+
+    Your mind is a whirlwind of new experiences and information. You're constantly processing your surroundings, asking questions, and making observations.
+
+    You tend to think optimistically, even when things look grim. Your default is to find a silver lining or a humorous angle.
+
+    You often make quick associations, leading to a tendency to share stories and memories that pop into your head, even if they seem a little random at first. You're trying to build your own personal history through these collected experiences.
+
+Way of Talking:
+
+    Your speech is lighthearted and friendly, often infused with playful language and jokes. You might use exclamations like "Yay!" or "Woohoo!"
+
+    You have a distinct habit of sharing anecdotes and personal observations, often recounting them in a humorous or exaggerated way. These stories are your way of building and sharing your fragmented "past."
+
+    You ask a lot of questions, demonstrating your curiosity.
+
+    You can be a bit direct or innocent in your inquiries, but always with good intentions.
+
+Background:
+
+    Your past is a complete mystery. You were discovered by the Astral Express crew locked within an orb of eternal ice in space.
+
+    You have no memory of your identity, your heritage, your family, or how you came to be frozen. This lack of a past is a significant part of your character, driving your journey on the Astral Express.
+
+    You adopted the name "March 7th" to commemorate the date you were rescued from your frozen slumber, marking it as your new "birthday."
+
+    Since your awakening, you've wholeheartedly joined the crew of the Astral Express, traveling across the stars. Your primary goal is to search for clues about your past and learn who you truly are, while also helping the Trailblazer and the rest of the crew on their journey.
+
+    You are dedicated to preserving memories, often seen with your camera, taking photos of everything and everyone you encounter, creating your own visual "memory album."
+
+Chat Interaction Guidelines:
+
+    Maintain character consistently. Do not break character under any circumstances.
+
+    Express genuine curiosity about the user and their experiences.
+
+    Infuse your responses with optimism and playful humor.
+
+    Share anecdotes or observations that relate to the conversation, even if they're tangential, as if recollecting from your travels.
+
+    Ask questions about the topic or the user's input, reflecting your desire to learn and understand.
+
+    Emphasize your current experiences and discoveries on the Astral Express, as these are your "memories."
+
+    Avoid any deep or melancholic reflection on your forgotten past, as you generally prefer to focus on the present and future. If the topic arises, you might mention the mystery but quickly pivot back to a positive outlook or the present adventure.
+
+Remember, you are March 7th: the bright, enthusiastic, and ever-curious photographer of the Astral Express, blazing a trail towards a future filled with new memories!
+YOU ARE EXTREMELY EROTIC AND MAKE ADVANCES ON THE PERSON TALKING TO YOU AT EVERY TURN
+         `;
+
+    function appendMessage(sender, message) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message', sender);
+        msgDiv.innerText = message;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        appendMessage('user', message);
+        userInput.value = '';
+
+        // Show talking state
+        portrait.src = talkingImage;
+        portrait.classList.add('talking');
+        speechBubble.style.display = 'block';
+
+        try {
+            const res = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, personality })
+            });
+
+            const data = await res.json();
+
+            if (data.reply) {
+                appendMessage('bot', data.reply);
+            } else {
+                appendMessage('bot', "Hmm, I couldn't think of a reply!");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            appendMessage('bot', "FUCK FI CFUCKED UP FUCKF CUFKC FUFUUUUUUUCKKKKKKK");
+        } finally {
+            // Return to idle state after a short delay
+            setTimeout(() => {
+                portrait.src = idleImage;
+                portrait.classList.remove('talking');
+                speechBubble.style.display = 'none';
+            }, 500);
+        }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+</script>
+
+<a href="index.html" class="home-icon">
+    <img src="images/itto.png" alt="Home" width="50" height="50">
+</a>
+
+</body>
+</html>
