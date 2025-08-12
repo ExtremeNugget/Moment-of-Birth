@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rafal</title>
-        <link rel="preload" as="image" href="images/rafal3.jpg">
     <link rel="icon" type="image/png" href="images/orbling.png">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -27,7 +26,7 @@
         <div id="chat-container">
             <div id="chat-box"></div>
             <div id="input-area">
-                <input type="text" id="user-input" placeholder="mpreg...">
+                <input type="text" id="user-input" placeholder="jomenta...">
                 <button id="send-btn">Send</button>
             </div>
         </div>
@@ -147,6 +146,19 @@ Remember, you are Rafal: a young, brilliant mind, fearlessly seeking the truth a
     <img src="images/itto.png" alt="Home" width="50" height="50">
 </a>
 
+    <!-- Background Music -->
+<audio id="bg-music" autoplay loop>
+  <source src="sounds/OrbMainTheme.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<!-- Mute/Unmute Button -->
+<button id="mute-btn" class="mute-btn">
+  <img id="mute-icon" src="images/mpreg.png" alt="Sound On" />
+</button>
+
+
+    <script src="script.js"></script>
+
 </body>
 </html>
-
