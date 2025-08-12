@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <span class="close">&times;</span>
             <div class="game-box" id="game-area">
                 <h2>
-                    You love numbers dont you? Whoa ex! Look at the time!!!<br>
+                    Your ass sure loves numbers doesnt it?<br>Whoa ex! Look at the time!!!
                     Whoa ex, add the numbers!!! WHOA 10!?!?<br>
-                    ALRIGHT FUCK FACE TIME TO GUESS THE FUCKING NUMBER
+                    ALRIGHT FUCK FACE HOW ABOUT YOU GUESS THE NUMBER THEN
                 </h2>
                 <input type="number" id="code-input" maxlength="4" placeholder="Enter 4-digit num">
                 <button id="submit-code" class="btn">Submit</button>
@@ -86,7 +86,7 @@ document.getElementById("game2").addEventListener("click", (e) => {
     `;
     popup2.classList.remove("hidden");
 
-    const correctWord = "ALIGN"; // Can randomize later
+    const correctWord = "BALLS"; // Can randomize later
     const maxGuesses = 6;
     let currentGuess = 0;
 
