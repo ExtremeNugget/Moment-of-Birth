@@ -152,7 +152,9 @@ header,
     justify-content: center;
     z-index: 10;
 }
+
 .hidden { display: none; }
+
 .popup-content {
     background: rgba(20,20,30,0.95);
     padding: 20px;
@@ -216,11 +218,11 @@ input[type="number"] {
     background: #111;
     color: #fff;
     text-align: center;
-    box-shadow: inset 0 0 8px rgba(255, 0, 100, 0.3);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
 .btn {
-    background: linear-gradient(90deg, #ff0066, #ff3399);
+    background: linear-gradient(90deg, #0d0325, #1e0a3f);
     color: white;
     border: none;
     padding: 12px 25px;
