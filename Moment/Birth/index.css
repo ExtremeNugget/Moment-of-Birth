@@ -304,3 +304,18 @@ input[type="number"] {
     background-color: #222;
     color: white;
 }
+
+.mute-btn {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.mute-btn img {
+  width: 32px;  /* adjust size */
+  height: 32px;
+}
